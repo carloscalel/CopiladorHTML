@@ -1,0 +1,1033 @@
+package codigo;
+
+import java_cup.runtime.Symbol;
+
+parser code
+{:
+    private Symbol s;
+    
+    public void syntax_error(Symbol s){
+        this.s = s;
+    }
+
+    public Symbol getS(){
+        return this.s;
+}
+:};
+
+terminal    tipo_documento,
+            elementos_raiz,
+            metadatos_cabecera,
+            metadatos_titulo,
+            secciones_cuerpo,
+            secciones_encabezado,
+            agrupacion_contenido,
+            informacion_tabulada,
+            atributos_tabla,
+            
+            operacion, texto, numero, correo,
+
+            salto_linea,
+            negrita,
+            
+            direccion,
+            vinculo, listas, listas_item,
+            
+            url_local,
+            imagen,
+
+            ERROR;
+          
+    
+non terminal INICIO, CASOS,    
+             TABLA, FILA, DATOS, COLUMNA, HACHES, PARRAFO, 
+             CON_O_SIN_NEGRITA, TABLA_CON_O_SIN_SALTO, HACHES_CON_O_SIN_SALTO, PARRAFO_CON_O_SIN_SALTO,
+             VINCULO, A, B, VINCULO_CON_O_SIN_SALTO, IMAGEN_LOCAL, IMAGEN_LOCAL_CON_O_SIN_SALTO, 
+             IMAGEN_INTERNET, IMAGEN_INTERNET_CON_O_SIN_SALTO;
+
+start with INICIO;
+
+    INICIO ::=  
+       CASOS | tipo_documento CASOS
+     ;
+     
+     CASOS ::=
+        elementos_raiz              
+            metadatos_cabecera      
+            metadatos_cabecera      
+            secciones_cuerpo   
+            secciones_cuerpo        
+        elementos_raiz             
+    
+                |
+
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo     
+               metadatos_titulo     
+            metadatos_cabecera      
+            secciones_cuerpo        
+            secciones_cuerpo     
+        elementos_raiz              
+
+                |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS           
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo       
+            secciones_cuerpo        
+        elementos_raiz     
+
+                |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                 HACHES_CON_O_SIN_SALTO 
+            secciones_cuerpo        
+        elementos_raiz     
+
+                |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                 PARRAFO_CON_O_SIN_SALTO  
+            secciones_cuerpo        
+        elementos_raiz   
+
+               |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera         
+            secciones_cuerpo
+                 VINCULO_CON_O_SIN_SALTO  
+            secciones_cuerpo        
+        elementos_raiz 
+
+               |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera         
+            secciones_cuerpo
+               IMAGEN_LOCAL_CON_O_SIN_SALTO         ///  
+            secciones_cuerpo        
+        elementos_raiz 
+        
+              |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz 
+
+                  |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+               IMAGEN_LOCAL_CON_O_SIN_SALTO 
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz 
+
+            |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+               HACHES_CON_O_SIN_SALTO
+               IMAGEN_LOCAL_CON_O_SIN_SALTO 
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz 
+
+             |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+               PARRAFO_CON_O_SIN_SALTO
+               IMAGEN_LOCAL_CON_O_SIN_SALTO 
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz 
+
+               |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+               HACHES_CON_O_SIN_SALTO
+               PARRAFO_CON_O_SIN_SALTO
+               IMAGEN_LOCAL_CON_O_SIN_SALTO 
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz 
+
+                  |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+               PARRAFO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+               IMAGEN_LOCAL_CON_O_SIN_SALTO 
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz 
+
+                        |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+              
+                HACHES_CON_O_SIN_SALTO
+               IMAGEN_LOCAL_CON_O_SIN_SALTO 
+                HACHES_CON_O_SIN_SALTO
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz 
+
+                          |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+              
+                HACHES_CON_O_SIN_SALTO
+               IMAGEN_LOCAL_CON_O_SIN_SALTO 
+                PARRAFO_CON_O_SIN_SALTO
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz 
+
+                     |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS                   
+               metadatos_titulo         
+            metadatos_cabecera              
+            secciones_cuerpo
+              
+                PARRAFO_CON_O_SIN_SALTO
+               IMAGEN_LOCAL_CON_O_SIN_SALTO             ////
+                HACHES_CON_O_SIN_SALTO
+               IMAGEN_INTERNET_CON_O_SIN_SALTO           
+            secciones_cuerpo        
+        elementos_raiz
+       
+                |
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                 PARRAFO_CON_O_SIN_SALTO
+                 HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz     
+
+                |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz     
+
+                 |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                VINCULO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz     
+
+                |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                VINCULO_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz     
+
+               |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                HACHES_CON_O_SIN_SALTO
+                VINCULO_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz    
+
+                  |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                PARRAFO_CON_O_SIN_SALTO
+                VINCULO_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz    
+
+                     |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                PARRAFO_CON_O_SIN_SALTO
+                VINCULO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz    
+
+                           |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+                HACHES_CON_O_SIN_SALTO
+                VINCULO_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz    
+
+                                   |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+`               VINCULO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz  
+
+                                          |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo
+`               VINCULO_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz  
+
+                                               |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo    
+                PARRAFO_CON_O_SIN_SALTO
+`               VINCULO_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz  
+
+                       |
+     
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo    
+                    DATOS            
+               metadatos_titulo         
+            metadatos_cabecera     
+            secciones_cuerpo    
+                HACHES_CON_O_SIN_SALTO
+`               VINCULO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz  
+
+                    |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo 
+                VINCULO_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO               
+            secciones_cuerpo                                   
+        elementos_raiz  
+
+                           |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo 
+                TABLA_CON_O_SIN_SALTO 
+                VINCULO_CON_O_SIN_SALTO              
+            secciones_cuerpo                                   
+        elementos_raiz  
+
+                                   |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo                        
+                VINCULO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO  
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+                                     |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo                        
+                VINCULO_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO  
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+                                     |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo                        
+                VINCULO_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO  
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+        
+                                     |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo                        
+                VINCULO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO  
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+                              |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo 
+                HACHES_CON_O_SIN_SALTO
+                VINCULO_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO  
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+                       |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo 
+                PARRAFO_CON_O_SIN_SALTO
+                VINCULO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO                  
+                TABLA_CON_O_SIN_SALTO  
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+
+     |
+     
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo    
+                    DATOS        
+               metadatos_titulo              
+            metadatos_cabecera      
+            secciones_cuerpo        
+                TABLA_CON_O_SIN_SALTO               
+            secciones_cuerpo                                   
+        elementos_raiz  
+
+                |
+                                    
+        elementos_raiz             
+            metadatos_cabecera      
+               metadatos_titulo     
+                    DATOS           
+               metadatos_titulo              
+            metadatos_cabecera                                               
+            secciones_cuerpo        
+                HACHES_CON_O_SIN_SALTO          
+                TABLA_CON_O_SIN_SALTO               
+            secciones_cuerpo                                  
+        elementos_raiz     
+
+                    |
+                                    
+        elementos_raiz             
+            metadatos_cabecera      
+               metadatos_titulo     
+                    DATOS           
+               metadatos_titulo              
+            metadatos_cabecera                                               
+            secciones_cuerpo        
+                PARRAFO_CON_O_SIN_SALTO          
+                TABLA_CON_O_SIN_SALTO               
+            secciones_cuerpo                                  
+        elementos_raiz    
+
+                |
+
+       elementos_raiz             
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                          
+            secciones_cuerpo        
+                TABLA_CON_O_SIN_SALTO               
+                HACHES_CON_O_SIN_SALTO     
+            secciones_cuerpo                                    
+        elementos_raiz         
+
+                   |
+
+        elementos_raiz             
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                            
+            secciones_cuerpo        
+                TABLA_CON_O_SIN_SALTO               
+                PARRAFO_CON_O_SIN_SALTO     
+            secciones_cuerpo                                    
+        elementos_raiz              
+        
+              |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS           
+               metadatos_titulo              
+            metadatos_cabecera                                               
+            secciones_cuerpo 
+                PARRAFO_CON_O_SIN_SALTO
+                    TABLA_CON_O_SIN_SALTO              
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo                                    
+        elementos_raiz   
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS           
+               metadatos_titulo              
+            metadatos_cabecera                                               
+            secciones_cuerpo        
+                HACHES_CON_O_SIN_SALTO 
+                   TABLA_CON_O_SIN_SALTO              
+                PARRAFO_CON_O_SIN_SALTO
+            secciones_cuerpo                                    
+        elementos_raiz    
+
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS           
+               metadatos_titulo              
+            metadatos_cabecera                                               
+            secciones_cuerpo        
+                PARRAFO_CON_O_SIN_SALTO 
+                   TABLA_CON_O_SIN_SALTO              
+                PARRAFO_CON_O_SIN_SALTO
+            secciones_cuerpo                                    
+        elementos_raiz    
+
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS          
+               metadatos_titulo              
+            metadatos_cabecera                                               
+            secciones_cuerpo        
+                HACHES_CON_O_SIN_SALTO 
+                   TABLA_CON_O_SIN_SALTO              
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo                                    
+        elementos_raiz       
+
+                |
+
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                               
+            secciones_cuerpo                 
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO               
+            secciones_cuerpo                                    
+        elementos_raiz  
+
+                    |
+
+        elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                               
+            secciones_cuerpo   
+                PARRAFO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO               
+            secciones_cuerpo                                    
+        elementos_raiz  
+
+                |
+
+       elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo              
+            metadatos_cabecera                                              
+            secciones_cuerpo        
+                TABLA_CON_O_SIN_SALTO               
+                 HACHES_CON_O_SIN_SALTO
+                 PARRAFO_CON_O_SIN_SALTO     
+            secciones_cuerpo        
+        elementos_raiz    
+
+                |
+
+       elementos_raiz              
+            metadatos_cabecera      
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo              
+            metadatos_cabecera                                              
+            secciones_cuerpo        
+                TABLA_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO 
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo        
+        elementos_raiz    
+        
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo        
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO    
+                TABLA_CON_O_SIN_SALTO              
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO   
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo 
+                PARRAFO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+                TABLA_CON_O_SIN_SALTO              
+                PARRAFO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO   
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo        
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO   
+                    TABLA_CON_O_SIN_SALTO               
+                HACHES_CON_O_SIN_SALTO 
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+                     |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo
+                PARRAFO_CON_O_SIN_SALTO        
+                HACHES_CON_O_SIN_SALTO   
+                    TABLA_CON_O_SIN_SALTO               
+                HACHES_CON_O_SIN_SALTO 
+            secciones_cuerpo                                   
+        elementos_raiz 
+            
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo   
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO        
+                    TABLA_CON_O_SIN_SALTO               
+                PARRAFO_CON_O_SIN_SALTO  
+            secciones_cuerpo                                   
+        elementos_raiz   
+
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+               metadatos_titulo     
+                    DATOS            
+               metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo        
+                PARRAFO_CON_O_SIN_SALTO        
+                HACHES_CON_O_SIN_SALTO   
+                    TABLA_CON_O_SIN_SALTO               
+                PARRAFO_CON_O_SIN_SALTO  
+            secciones_cuerpo                                   
+        elementos_raiz   
+        
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+                metadatos_titulo     
+                    DATOS           
+                metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo        
+                PARRAFO_CON_O_SIN_SALTO   
+                    TABLA_CON_O_SIN_SALTO               
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO   
+            secciones_cuerpo                                   
+        elementos_raiz      
+
+                       |
+
+        elementos_raiz              
+            metadatos_cabecera     
+                metadatos_titulo     
+                    DATOS           
+                metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo        
+                PARRAFO_CON_O_SIN_SALTO   
+                    TABLA_CON_O_SIN_SALTO               
+                PARRAFO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo                                   
+        elementos_raiz 
+
+                 |
+
+        elementos_raiz              
+            metadatos_cabecera     
+                metadatos_titulo     
+                    DATOS           
+                metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo        
+                HACHES_CON_O_SIN_SALTO 
+                         TABLA_CON_O_SIN_SALTO               
+                HACHES_CON_O_SIN_SALTO
+                PARRAFO_CON_O_SIN_SALTO   
+            secciones_cuerpo                                   
+        elementos_raiz     
+
+                |
+
+        elementos_raiz              
+            metadatos_cabecera     
+                metadatos_titulo     
+                    DATOS           
+                metadatos_titulo             
+            metadatos_cabecera                                             
+            secciones_cuerpo        
+                HACHES_CON_O_SIN_SALTO 
+                         TABLA_CON_O_SIN_SALTO               
+                PARRAFO_CON_O_SIN_SALTO
+                HACHES_CON_O_SIN_SALTO
+            secciones_cuerpo                                   
+        elementos_raiz     
+
+     ;
+
+     TABLA ::=     
+        salto_linea
+        informacion_tabulada
+            FILA
+        informacion_tabulada |
+        
+        informacion_tabulada
+            FILA
+        informacion_tabulada
+     ;
+
+     TABLA_CON_O_SIN_SALTO ::= TABLA_CON_O_SIN_SALTO
+        TABLA | TABLA
+     ;
+       
+     FILA ::= FILA
+        atributos_tabla 
+            COLUMNA
+        atributos_tabla |   
+
+         atributos_tabla 
+            COLUMNA
+        atributos_tabla
+     ;
+
+     COLUMNA ::= COLUMNA
+        atributos_tabla
+                CON_O_SIN_NEGRITA  
+        atributos_tabla |
+
+        atributos_tabla
+                CON_O_SIN_NEGRITA
+        atributos_tabla
+     ;
+
+     DATOS ::= 
+        operacion | texto | numero | correo
+     ;
+
+     CON_O_SIN_NEGRITA ::=
+        DATOS | negrita DATOS negrita
+     ;
+   	
+    HACHES ::= 
+        salto_linea
+        secciones_encabezado
+            CON_O_SIN_NEGRITA
+        secciones_encabezado    |
+        secciones_encabezado
+            CON_O_SIN_NEGRITA
+        secciones_encabezado
+    ;
+    
+    HACHES_CON_O_SIN_SALTO ::= HACHES_CON_O_SIN_SALTO
+        HACHES | HACHES
+    ;
+    PARRAFO ::= 
+        salto_linea
+        agrupacion_contenido 
+            CON_O_SIN_NEGRITA
+        agrupacion_contenido    |
+        agrupacion_contenido 
+            CON_O_SIN_NEGRITA
+        agrupacion_contenido
+    ;
+
+    PARRAFO_CON_O_SIN_SALTO ::= PARRAFO_CON_O_SIN_SALTO
+        PARRAFO | PARRAFO
+    ; 
+
+    VINCULO ::= 
+        vinculo
+            direccion
+            DATOS
+        vinculo |
+        salto_linea
+        vinculo
+            direccion
+            DATOS
+        vinculo 
+    ;
+
+     IMAGEN_LOCAL  ::=
+        imagen
+        url_local | 
+        salto_linea
+        imagen
+        url_local
+     ;
+
+     IMAGEN_LOCAL_CON_O_SIN_SALTO ::= IMAGEN_LOCAL_CON_O_SIN_SALTO
+        IMAGEN_LOCAL | IMAGEN_LOCAL
+     ;
+
+     IMAGEN_INTERNET  ::=
+        imagen
+        direccion | 
+        salto_linea
+        imagen
+        direccion
+     ;
+
+     IMAGEN_INTERNET_CON_O_SIN_SALTO ::= IMAGEN_INTERNET_CON_O_SIN_SALTO
+        IMAGEN_INTERNET | IMAGEN_INTERNET
+     ;
+
+
+           
